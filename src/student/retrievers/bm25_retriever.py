@@ -7,7 +7,8 @@ from src.student.models import MinimalSource
 
 
 class BM25Retriever:
-    """Loads a BM25 index from disk and retrieves relevant chunks for a query."""
+    """Loads a BM25 index from disk and retrieves relevant chunks
+    for a query."""
 
     def __init__(self, index_directory: str) -> None:
         """Load the BM25 index and chunks from disk.

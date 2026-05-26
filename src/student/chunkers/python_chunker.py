@@ -32,7 +32,8 @@ class PythonChunker:
         start: int,
         end: int,
     ) -> list[MinimalSource]:
-        """Split a chunk that is too big into smaller pieces by character size."""
+        """Split a chunk that is too big into smaller pieces by character
+        size."""
         chunks = []
         chunk_start = start
 
@@ -51,8 +52,8 @@ class PythonChunker:
         """Split Python content into chunks on functions and classes.
 
         Falls back to size-based splitting if the file cannot be parsed.
-        If a function or class is bigger than max_chunk_size, splits it further.
-        """
+        If a function or class is bigger than max_chunk_size,
+        splits it further."""
         try:
             tree = ast.parse(content)
         except SyntaxError:
@@ -62,7 +63,10 @@ class PythonChunker:
 
         top_level_nodes = []
         for node in tree.body:
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            if isinstance(
+                    node,
+                    (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
+            ):
                 top_level_nodes.append(node)
 
         if not top_level_nodes:

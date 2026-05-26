@@ -38,7 +38,10 @@ class Generator:
         file_path = Path(repo_path) / source.file_path
         try:
             content = file_path.read_text(encoding="utf-8")
-            return content[source.first_character_index:source.last_character_index]
+            start = source.first_character_index
+            end = source.last_character_index
+
+            return content[start:end]
         except (FileNotFoundError, OSError, UnicodeDecodeError):
             return ""
 
@@ -91,10 +94,12 @@ class Generator:
         context = self._build_context(sources, repo_path)
 
         prompt = (
-            "You are a helpful assistant answering questions about the vLLM codebase.\n"
+            "You are a helpful assistant answering questions "
+            "about the vLLM codebase.\n"
             "Answer based ONLY on the provided sources. "
             "Always mention the source file(s) you draw from.\n"
-            "Be self-contained: your answer must be readable without the question.\n\n"
+            "Be self-contained: your answer must be readable "
+            "without the question.\n\n"
             f"Sources:\n{context}\n\n"
             f"Question: {question}\n\n"
             "Answer:"

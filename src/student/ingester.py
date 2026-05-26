@@ -19,8 +19,8 @@ class Ingester:
                 print(f"Skipping {file}")
                 continue
             if file.suffix == ".md":
-                chunks.extend(self.md_chunker.chunk(str(file), file.read_text()))
+                chunks.extend(self.md_chunker.chunk(str(file), content))
             if file.suffix == ".py":
-                chunks.extend(self.py_chunker.chunk(str(file), file.read_text()))
+                chunks.extend(self.py_chunker.chunk(str(file), content))
 
         return chunks

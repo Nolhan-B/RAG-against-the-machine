@@ -26,8 +26,9 @@ class MarkdownChunker:
 
         for line in lines:
             is_header = line.startswith("#")
-            would_overflow = len(current_text) + len(line) > self.max_chunk_size
 
+            current_size = len(current_text) + len(line)
+            would_overflow = current_size > self.max_chunk_size
             if (is_header or would_overflow) and current_text.strip():
                 chunk_end = current_start + len(current_text)
                 chunks.append(MinimalSource(
