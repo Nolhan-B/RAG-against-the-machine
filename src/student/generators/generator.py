@@ -1,5 +1,5 @@
 """Generator: uses Qwen3-0.6B to generate answers from retrieved chunks."""
-
+import re
 from pathlib import Path
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -93,30 +93,39 @@ class Generator:
         """
         context = self._build_context(sources, repo_path)
 
-        prompt = (
-            "You are a helpful assistant answering questions "
-            "about the vLLM codebase.\n"
-            "Answer based ONLY on the provided sources. "
-            "Always mention the source file(s) you draw from.\n"
-            "Be self-contained: your answer must be readable "
-            "without the question.\n\n"
-            f"Sources:\n{context}\n\n"
-            f"Question: {question}\n\n"
-            "Answer:"
-        )
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are a helpful assistant answering questions about the vLLM codebase. "
+                    "Answer based ONLY on the provided sources. "
+                    "Be concise and self-contained. Mention the source file(s) you draw from."
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"Sources:\n{context}\n\nQuestion: {question}",
+            },
+        ]
 
-        inputs = self.tokenizer(prompt, return_tensors="pt").to(
-            self.model.device
-        )
+        inputs = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=True,
+            add_generation_prompt=True,
+            return_tensors="pt",
+            return_dict=True,
+        ).to(self.model.device)
 
         outputs = self.model.generate(
             **inputs,
             max_new_tokens=self.MAX_NEW_TOKENS,
             do_sample=False,
             pad_token_id=self.tokenizer.eos_token_id,
+            repetition_penalty=1.3,
         )
 
         new_tokens = outputs[0][inputs["input_ids"].shape[1]:]
         answer = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
+        answer = re.sub(r"<think>.*?</think>", "", answer, flags=re.DOTALL).strip()
 
         return answer.strip()
