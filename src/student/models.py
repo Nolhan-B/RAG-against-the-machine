@@ -3,7 +3,7 @@
 import uuid
 from typing import List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class MinimalSource(BaseModel):
@@ -37,6 +37,7 @@ class RagDataset(BaseModel):
 
 class MinimalSearchResults(BaseModel):
     """Search results for a single question."""
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     question_id: str
     question: str

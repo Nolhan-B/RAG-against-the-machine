@@ -4,7 +4,7 @@ from pathlib import Path
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from src.student.models import MinimalSource
+from student.models import MinimalSource
 
 
 class Generator:

@@ -1,4 +1,4 @@
-from src.student.models import (AnsweredQuestion,
+from student.models import (AnsweredQuestion,
                                 MinimalSource,
                                 StudentSearchResults)
 

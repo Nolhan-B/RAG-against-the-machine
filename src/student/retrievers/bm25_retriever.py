@@ -3,7 +3,7 @@ from pathlib import Path
 
 import bm25s
 
-from src.student.models import MinimalSource
+from student.models import MinimalSource
 
 
 class BM25Retriever:

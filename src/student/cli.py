@@ -3,11 +3,11 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from src.student.evaluators.evaluator import Evaluator
-from src.student.generators.generator import Generator
-from src.student.indexers.bm25_indexer import BM25Indexer
-from src.student.ingester import Ingester
-from src.student.models import (
+from student.evaluators.evaluator import Evaluator
+from student.generators.generator import Generator
+from student.indexers.bm25_indexer import BM25Indexer
+from student.ingester import Ingester
+from student.models import (
     AnsweredQuestion,
     MinimalAnswer,
     MinimalSearchResults,
@@ -15,7 +15,7 @@ from src.student.models import (
     StudentSearchResults,
     StudentSearchResultsAndAnswer,
 )
-from src.student.retrievers.bm25_retriever import BM25Retriever
+from student.retrievers.bm25_retriever import BM25Retriever
 
 PROCESSED_DIR = "data/processed"
 RAW_DIR = "data/raw/vllm-0.10.1"

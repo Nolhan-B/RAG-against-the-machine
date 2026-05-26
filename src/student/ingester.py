@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from src.student.chunkers.markdown_chunker import MarkdownChunker
-from src.student.chunkers.python_chunker import PythonChunker
-from src.student.models import MinimalSource
+from student.chunkers.markdown_chunker import MarkdownChunker
+from student.chunkers.python_chunker import PythonChunker
+from student.models import MinimalSource
 
 
 class Ingester:
