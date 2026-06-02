@@ -76,6 +76,8 @@ class PythonChunker:
 
         chunks = []
         for node in top_level_nodes:
+            if node.lineno is None or node.end_lineno is None:
+                continue
             node_start = offsets[node.lineno - 1]
             node_end = offsets[node.end_lineno - 1] + len(
                 content.splitlines(keepends=True)[node.end_lineno - 1]
