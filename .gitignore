@@ -5,3 +5,4 @@ data/processed/
 data/output/
 *.zipoutput_test.txt
 data/datasets/
+output_test.txt
