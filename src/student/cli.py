@@ -30,6 +30,10 @@ class CLI:
         Args:
             max_chunk_size: maximum number of characters per chunk.
         """
+        if max_chunk_size <= 0:
+            print("max_chunk_size must be greater than 0.")
+            return
+
         print(f"Ingesting repository: {RAW_DIR}")
         ingester = Ingester(max_chunk_size=max_chunk_size)
         chunks, contents = ingester.ingest(RAW_DIR)
@@ -55,6 +59,9 @@ class CLI:
         if k == 0:
             print("k=0, no results.")
             return
+
+        if k > 100:
+            k = 100
 
         try:
             retriever = BM25Retriever(PROCESSED_DIR)
@@ -88,7 +95,12 @@ class CLI:
             dataset = RagDataset.model_validate_json(
                 Path(dataset_path).read_text(encoding="utf-8")
             )
-        except (FileNotFoundError, OSError) as error:
+        except (
+                FileNotFoundError,
+                OSError,
+                UnicodeDecodeError,
+                ValueError
+        ) as error:
             print(f"Error loading dataset: {error}")
             return
 
@@ -220,15 +232,25 @@ class CLI:
             search_results = StudentSearchResults.model_validate_json(
                 Path(student_answer_path).read_text(encoding="utf-8")
             )
-        except (FileNotFoundError, OSError) as error:
-            print(f"Error loading student results: {error}")
+        except (
+                FileNotFoundError,
+                OSError,
+                UnicodeDecodeError,
+                ValueError
+        ) as error:
+            print(f"Error loading dataset: {error}")
             return
 
         try:
             dataset = RagDataset.model_validate_json(
                 Path(dataset_path).read_text(encoding="utf-8")
             )
-        except (FileNotFoundError, OSError) as error:
+        except (
+                FileNotFoundError,
+                OSError,
+                UnicodeDecodeError,
+                ValueError
+        ) as error:
             print(f"Error loading dataset: {error}")
             return
 

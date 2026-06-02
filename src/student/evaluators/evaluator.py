@@ -1,6 +1,6 @@
 from student.models import (AnsweredQuestion,
-                                MinimalSource,
-                                StudentSearchResults)
+                            MinimalSource,
+                            StudentSearchResults)
 
 
 class Evaluator:

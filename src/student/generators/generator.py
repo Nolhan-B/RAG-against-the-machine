@@ -97,9 +97,11 @@ class Generator:
             {
                 "role": "system",
                 "content": (
-                    "You are a helpful assistant answering questions about the vLLM codebase. "
+                    "You are a helpful assistant answering questions about "
+                    "the vLLM codebase."
                     "Answer based ONLY on the provided sources. "
-                    "Be concise and self-contained. Mention the source file(s) you draw from."
+                    "Be concise and self-contained."
+                    "Mention the source file(s) you draw from."
                 ),
             },
             {
@@ -126,6 +128,11 @@ class Generator:
 
         new_tokens = outputs[0][inputs["input_ids"].shape[1]:]
         answer = self.tokenizer.decode(new_tokens, skip_special_tokens=True)
-        answer = re.sub(r"<think>.*?</think>", "", answer, flags=re.DOTALL).strip()
+        answer = re.sub(
+            r"<think>.*?</think>",
+            "",
+            answer,
+            flags=re.DOTALL
+        ).strip()
 
         return answer.strip()
