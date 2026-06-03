@@ -38,6 +38,11 @@ class CLI:
         ingester = Ingester(max_chunk_size=max_chunk_size)
         chunks, contents = ingester.ingest(RAW_DIR)
 
+        if not chunks:
+            print(f"No files found in {RAW_DIR}."
+                  "Check that the repository is present.")
+            return
+
         print(f"Indexing {len(chunks)} chunks...")
         indexer = BM25Indexer()
         indexer.build(chunks, contents)
@@ -112,10 +117,10 @@ class CLI:
 
         search_results = []
         for question in tqdm(dataset.rag_questions, desc="Searching"):
-            retrieved = retriever.search(question.question, k=k)
+            retrieved = retriever.search(question.question_str, k=k)
             search_results.append(MinimalSearchResults(
                 question_id=question.question_id,
-                question=question.question,
+                question=question.question_str,
                 retrieved_sources=retrieved,
             ))
 
@@ -189,7 +194,7 @@ class CLI:
                 desc="Generating answers"
         ):
             answer_text = generator.generate(
-                result.question, result.retrieved_sources, RAW_DIR
+                result.question_str, result.retrieved_sources, RAW_DIR
             )
             answers.append(MinimalAnswer(
                 question_id=result.question_id,

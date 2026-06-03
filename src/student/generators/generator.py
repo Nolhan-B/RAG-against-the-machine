@@ -11,8 +11,8 @@ class Generator:
     """Loads Qwen3-0.6B and generates answers from retrieved context."""
 
     MODEL_NAME = "Qwen/Qwen3-0.6B"
-    MAX_NEW_TOKENS = 512
-    MAX_CONTEXT_CHARS = 6000
+    MAX_NEW_TOKENS = 150
+    MAX_CONTEXT_CHARS = 3000
 
     def __init__(self) -> None:
         """Load the tokenizer and model from Hugging Face."""
