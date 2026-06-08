@@ -17,9 +17,10 @@ class MinimalSource(BaseModel):
 
 class UnansweredQuestion(BaseModel):
     """A question without an answer or sources."""
+    model_config = ConfigDict(populate_by_name=True)
 
     question_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    question_str: str
+    question_str: str = Field(alias="question")
 
 
 class AnsweredQuestion(UnansweredQuestion):
@@ -37,10 +38,10 @@ class RagDataset(BaseModel):
 
 class MinimalSearchResults(BaseModel):
     """Search results for a single question."""
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
 
     question_id: str
-    question_str: str
+    question_str: str = Field(alias="question")
     retrieved_sources: List[MinimalSource]
 
 
