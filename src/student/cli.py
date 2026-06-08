@@ -120,7 +120,7 @@ class CLI:
             retrieved = retriever.search(question.question_str, k=k)
             search_results.append(MinimalSearchResults(
                 question_id=question.question_id,
-                question_str=question.question_str,
+                question=question.question_str,
                 retrieved_sources=retrieved,
             ))
 
@@ -180,7 +180,8 @@ class CLI:
             search_results = StudentSearchResults.model_validate_json(
                 Path(student_search_results_path).read_text(encoding="utf-8")
             )
-        except (FileNotFoundError, OSError, UnicodeDecodeError, ValueError) as error:
+        except (FileNotFoundError, OSError,
+                UnicodeDecodeError, ValueError) as error:
             print(f"Error loading search results: {error}")
             return
 
@@ -198,7 +199,7 @@ class CLI:
             )
             answers.append(MinimalAnswer(
                 question_id=result.question_id,
-                question_str=result.question ,
+                question=result.question,
                 retrieved_sources=result.retrieved_sources,
                 answer=answer_text,
             ))

@@ -38,7 +38,10 @@ class RagDataset(BaseModel):
 
 class MinimalSearchResults(BaseModel):
     """Search results for a single question."""
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True
+    )
 
     question_id: str
     question_str: str = Field(alias="question")
