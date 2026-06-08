@@ -120,7 +120,7 @@ class CLI:
             retrieved = retriever.search(question.question_str, k=k)
             search_results.append(MinimalSearchResults(
                 question_id=question.question_id,
-                question=question.question_str,
+                question_str=question.question_str,
                 retrieved_sources=retrieved,
             ))
 
@@ -198,7 +198,7 @@ class CLI:
             )
             answers.append(MinimalAnswer(
                 question_id=result.question_id,
-                question=result.question,
+                question_str=result.question,
                 retrieved_sources=result.retrieved_sources,
                 answer=answer_text,
             ))
