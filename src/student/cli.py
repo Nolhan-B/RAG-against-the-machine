@@ -226,7 +226,7 @@ class CLI:
 
             answers.append(MinimalAnswer(
                 question_id=result.question_id,
-                question_str=result.question_str,
+                question_str=result.question_str,  # type: ignore[call-arg]
                 retrieved_sources=result.retrieved_sources,
                 answer=answer_text,
             ))
