@@ -50,24 +50,25 @@ class CLI:
 
         print(f"Ingestion complete! Indices saved under {PROCESSED_DIR}/")
 
-    def search(self, query: str, k: int = 5) -> None:
+    def search(self,
+               query: str,
+               k: int = 5,
+               save_directory: str = "data/output/search_results"
+               ) -> None:
         """Search the index for a single query and print results.
-
         Args:
             query: the search query.
             k: number of results to return.
+            save_directory: directory to save results.
         """
         if not query.strip():
             print("Empty query, no results.")
             return
-
         if k == 0:
             print("k=0, no results.")
             return
-
         if k > 100:
             k = 100
-
         try:
             retriever = BM25Retriever(PROCESSED_DIR)
         except FileNotFoundError as error:
@@ -82,6 +83,20 @@ class CLI:
                 f"(chars {source.first_character_index}"
                 f"-{source.last_character_index})"
             )
+
+        output = StudentSearchResults(
+            search_results=[MinimalSearchResults(
+                question_id="manual_query",
+                question=query,
+                retrieved_sources=results,
+            )],
+            k=k,
+        )
+        save_path = Path(save_directory)
+        save_path.mkdir(parents=True, exist_ok=True)
+        output_file = save_path / "manual_query.json"
+        output_file.write_text(output.model_dump_json(indent=2), encoding="utf-8")
+        print(f"Saved search results to {output_file}")
 
     def search_dataset(
         self,
