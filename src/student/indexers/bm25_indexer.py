@@ -11,7 +11,7 @@ class BM25Indexer:
 
     def __init__(self) -> None:
         """Initialize the indexer."""
-        self.retriever = bm25s.BM25()
+        self.retriever = bm25s.BM25(k1=1.5, b=0.7)
         self.chunks: list[MinimalSource] = []
 
     def build(self, chunks: list[MinimalSource], contents: list[str]) -> None:

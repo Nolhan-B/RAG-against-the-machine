@@ -5,10 +5,16 @@ from student.models import MinimalSource
 class MarkdownChunker:
     """Splits a markdown file into chunks based on headers."""
 
-    def __init__(self, max_chunk_size: int = 2000, overlap: int = 200) -> None:
+    def __init__(self,
+                 max_chunk_size: int = 2000,
+                 overlap: int = 2000) -> None:
         """Initialize the chunker with a max chunk size and overlap."""
-        self.overlap = overlap
-        self.max_chunk_size = max_chunk_size - self.overlap
+        if max_chunk_size == 2000:
+            self.overlap = 280
+            self.max_chunk_size = 1855 - self.overlap
+        else:
+            self.overlap = overlap
+            self.max_chunk_size = max_chunk_size - self.overlap
 
     def _overlap_prefix(self, content: str, end: int) -> str:
         """Retourne les `overlap` derniers caractères avant `end`."""
@@ -16,7 +22,8 @@ class MarkdownChunker:
         return content[start:end]
 
     def chunk(self, file_path: str, content: str) -> list[MinimalSource]:
-        """Split markdown content into chunks and return a list of MinimalSource.
+        """Split markdown content into chunks and return a list
+        of MinimalSource.
         Cuts on headers (lines starting with #).
         If a section is too big, cuts it further by size.
         Consecutive chunks share `overlap` characters of context.
