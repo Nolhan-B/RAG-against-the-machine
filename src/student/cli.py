@@ -95,7 +95,8 @@ class CLI:
         save_path = Path(save_directory)
         save_path.mkdir(parents=True, exist_ok=True)
         output_file = save_path / "manual_query.json"
-        output_file.write_text(output.model_dump_json(indent=2), encoding="utf-8")
+        output_file.write_text(output.model_dump_json(indent=2),
+                               encoding="utf-8")
         print(f"Saved search results to {output_file}")
 
     def search_dataset(
