@@ -5,15 +5,15 @@ from student.models import MinimalSource
 class MarkdownChunker:
     """Splits a markdown file into chunks based on headers."""
 
-    def __init__(self,
-                 max_chunk_size: int = 2000,
-                 overlap: int = 2000) -> None:
+    def __init__(self, max_chunk_size: int = 2000, overlap: int = 200) -> None:
         """Initialize the chunker with a max chunk size and overlap."""
+        max_chunk_size = max(560, min(max_chunk_size, 2000))
+
         if max_chunk_size == 2000:
             self.overlap = 280
             self.max_chunk_size = 1855 - self.overlap
         else:
-            self.overlap = overlap
+            self.overlap = min(overlap, max_chunk_size // 2)
             self.max_chunk_size = max_chunk_size - self.overlap
 
     def _overlap_prefix(self, content: str, end: int) -> str:

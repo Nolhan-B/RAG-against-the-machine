@@ -8,11 +8,13 @@ class PythonChunker:
 
     def __init__(self, max_chunk_size: int = 2000, overlap: int = 200) -> None:
         """Initialize the chunker with a max chunk size and overlap."""
+        max_chunk_size = max(760, min(max_chunk_size, 2000))
+
         if max_chunk_size == 2000:
             self.overlap = 380
             self.max_chunk_size = 1650 - self.overlap
         else:
-            self.overlap = overlap
+            self.overlap = min(overlap, max_chunk_size // 2)
             self.max_chunk_size = max_chunk_size - self.overlap
 
     def _get_line_offsets(self, content: str) -> list[int]:

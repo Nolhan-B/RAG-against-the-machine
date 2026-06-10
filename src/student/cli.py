@@ -33,6 +33,10 @@ class CLI:
         if max_chunk_size <= 0:
             print("max_chunk_size must be greater than 0.")
             return
+        
+        if max_chunk_size > 2000:
+            print("max_chunk_size can't be greater than 2000.")
+            return
 
         print(f"Ingesting repository: {RAW_DIR}")
         ingester = Ingester(max_chunk_size=max_chunk_size)
