@@ -72,6 +72,7 @@ class CLI:
             print("k=0, no results.")
             return
         if k > 100:
+            print("Warning: K Value too high, clamping value at 100")
             k = 100
         try:
             retriever = BM25Retriever(PROCESSED_DIR)
@@ -116,6 +117,12 @@ class CLI:
             k: number of results per question.
             save_directory: directory to save results.
         """
+        if k < 1:
+            print("Error: K value must be at least 1")
+            return
+        if k > 100:
+            print("Warning: K Value too high, clamping value at 100")
+            k = 100
         try:
             dataset = RagDataset.model_validate_json(
                 Path(dataset_path).read_text(encoding="utf-8")
@@ -217,9 +224,10 @@ class CLI:
             answer_text = generator.generate(
                 result.question_str, result.retrieved_sources, RAW_DIR
             )
+
             answers.append(MinimalAnswer(
                 question_id=result.question_id,
-                question=result.question,
+                question_str=result.question_str,
                 retrieved_sources=result.retrieved_sources,
                 answer=answer_text,
             ))
