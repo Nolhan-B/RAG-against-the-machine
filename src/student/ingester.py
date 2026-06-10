@@ -29,6 +29,8 @@ class Ingester:
                 new_chunks = self.md_chunker.chunk(str(file), content)
             elif file.suffix == ".py":
                 new_chunks = self.py_chunker.chunk(str(file), content)
+            elif file.suffix in (".rst", ".txt"):
+                new_chunks = self.md_chunker.chunk(str(file), content)
             else:
                 continue
 
