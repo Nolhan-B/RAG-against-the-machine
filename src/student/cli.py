@@ -159,7 +159,7 @@ class CLI:
 
         sources = retriever.search(query, k=k)
 
-        print("Loading model...")
+        # print("Loading model...")
         generator = Generator()
         answer = generator.generate(query, sources, RAW_DIR)
 
@@ -186,7 +186,7 @@ class CLI:
             return
 
         print(f"Loaded {len(search_results.search_results)} questions.")
-        print("Loading model...")
+        # print("Loading model...")
         generator = Generator()
 
         answers = []

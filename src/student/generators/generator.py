@@ -11,7 +11,7 @@ class Generator:
     """Loads Qwen3-0.6B and generates answers from retrieved context."""
 
     MODEL_NAME = "Qwen/Qwen3-0.6B"
-    MAX_NEW_TOKENS = 150
+    MAX_NEW_TOKENS = 450
     MAX_CONTEXT_CHARS = 3000
 
     def __init__(self) -> None:
@@ -66,11 +66,13 @@ class Generator:
                 continue
 
             if total_chars + len(chunk_text) > self.MAX_CONTEXT_CHARS:
-                break
+                remaining = self.MAX_CONTEXT_CHARS - total_chars
+                if remaining > 0:
+                    chunk_text = chunk_text[:remaining]
+                else:
+                    break
 
-            context_parts.append(
-                f"Source: {source.file_path}\n{chunk_text}"
-            )
+            context_parts.append(f"Source: {source.file_path}\n{chunk_text}")
             total_chars += len(chunk_text)
 
         return "\n\n---\n\n".join(context_parts)
@@ -98,9 +100,9 @@ class Generator:
                 "role": "system",
                 "content": (
                     "You are a helpful assistant answering questions about "
-                    "the vLLM codebase."
+                    "the vLLM codebase. "
                     "Answer based ONLY on the provided sources. "
-                    "Be concise and self-contained."
+                    "Be concise and self-contained. "
                     "Mention the source file(s) you draw from."
                 ),
             },
